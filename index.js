@@ -11,4 +11,4 @@ app.use('/api', home);
 
 // connection
 const port = process.env.PORT || 8080;
-app.lis(port, () => console.log(`Server Running On PORT: ${port}`));
+app.listen(port, () => console.log(`Server Running On PORT: ${port}`));

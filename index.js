@@ -63,6 +63,7 @@ app.get('/api/download', function (req, res) {
       // fs.unlinkSync(path.join(__dirname, '../../tmp/res.zip'));
     });
   } catch (err) {
+    console.log(err);
     res.send(`This is the error ${err}`);
   }
 });

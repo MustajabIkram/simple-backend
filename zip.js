@@ -3,8 +3,8 @@ const path = require('path');
 module.exports = async function createZipArchive() {
   const zip = new AdmZip();
   const outputFile = '../../tmp/res.zip';
-  zip.addLocalFolder(path.join(__dirname, '../../tmp/'));
+  zip.addLocalFile(path.join(__dirname, '../../tmp/output-1.docx'));
   const data = zip.toBuffer();
-  zip.writeZip(outputFile);
+  zip.writeZip(path.join(__dirname, outputFile));
   return data;
 };

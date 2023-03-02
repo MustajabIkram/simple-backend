@@ -11,5 +11,8 @@
       "src": "/(.*)",
       "dest": "/"
     }
-  ]
+  ],
+  "handle": "filesystem",
+  "src": "/(.*)",
+  "dest": "/.vercel/functions/renderer"
 }

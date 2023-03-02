@@ -54,9 +54,9 @@ app.get('/api/download', function (req, res) {
       fs.unlinkSync(path.join(__dirname, '../../tmp/data.xlsx'));
 
       fs.readdir(path.join(__dirname, '../../tmp/'), (err, files) => {
-        if (err) throw err;
+        if (err) throw err; //simple-backend-two.vercel.app/api
 
-        for (const file of files) {
+        https: for (const file of files) {
           if (file.split('.')[1] === 'docx')
             fs.unlinkSync(path.join(__dirname, '../../tmp/') + file, (err) => {
               if (err) throw err;

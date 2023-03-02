@@ -48,7 +48,9 @@ app.use('/api/check', check);
 app.get('/api/download', function (req, res) {
   try {
     const folderPath = __dirname + '../../tmp/file.docx';
-    res.download(folderPath, () => {
+    console.log(folderPath);
+    res.download(folderPath, (error, response) => {
+      console.log(error);
       // fs.unlinkSync(path.join(__dirname, '../../tmp/file.docx'));
       // fs.unlinkSync(path.join(__dirname, '../../tmp/data.xlsx'));
       // fs.readdir(path.join(__dirname, '../../tmp/'), (err, files) => {
@@ -62,6 +64,7 @@ app.get('/api/download', function (req, res) {
       // });
       // fs.unlinkSync(path.join(__dirname, '../../tmp/res.zip'));
     });
+    // res.send(`This is the downloaded`);
   } catch (err) {
     console.log(err);
     res.send(`This is the error ${err}`);

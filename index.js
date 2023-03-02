@@ -46,12 +46,11 @@ app.use('/api/check', check);
 // Routes
 app.get('/api/download', function (req, res) {
   try {
-    const folderPath = __dirname + '../../../tmp/res.zip';
+    const folderPath = path.join(__dirname + '../../../tmp/res.zip');
     const docxPath = path.join(__dirname, '../../tmp/file.docx');
     const dataPath = path.join(__dirname, '../../tmp/data.xlsx');
     const outputDir = path.join(__dirname + '../../../tmp/output');
-    const zipDir = path.join(__dirname, '../../tmp/res.zip');
-    console.log(folderPath, docxPath, dataPath, outputDir, zipDir);
+    console.log(folderPath, docxPath, dataPath, outputDir);
     res.download(folderPath, () => {
       fs.unlinkSync(docxPath);
       fs.unlinkSync(dataPath);
@@ -59,7 +58,7 @@ app.get('/api/download', function (req, res) {
         recursive: true,
         force: true,
       });
-      fs.unlinkSync(zipDir);
+      fs.unlinkSync(folderPath);
     });
     // res.send(`This is the downloaded`);
   } catch (err) {

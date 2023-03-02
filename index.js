@@ -58,7 +58,7 @@ app.get('/api/download', function (req, res) {
         recursive: true,
         force: true,
       });
-      fs.unlinkSync(folderPath);
+      // fs.unlinkSync(folderPath);
     });
     // res.send(`This is the downloaded`);
   } catch (err) {

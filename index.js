@@ -21,9 +21,9 @@ app.use(cors());
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     if (file.fieldname === 'file') {
-      cb(null, './file');
+      cb(null, './tmp');
     } else {
-      cb(null, './data');
+      cb(null, './tmp');
     }
   },
   filename: function (req, file, cb) {
@@ -49,15 +49,15 @@ app.get('/api/download', function (req, res) {
   try {
     const folderPath = __dirname + '/res.zip';
     res.download(folderPath, () => {
-      fs.unlinkSync(path.join(__dirname, '/file/file.docx'));
+      fs.unlinkSync(path.join(__dirname, '/tmp/file.docx'));
 
-      fs.unlinkSync(path.join(__dirname, '/data/data.xlsx'));
+      fs.unlinkSync(path.join(__dirname, '/tmp/data.xlsx'));
 
-      fs.readdir(path.join(__dirname, '/output/'), (err, files) => {
+      fs.readdir(path.join(__dirname, '/tmp/'), (err, files) => {
         if (err) throw err;
 
         for (const file of files) {
-          fs.unlinkSync(path.join(__dirname, '/output/') + file, (err) => {
+          fs.unlinkSync(path.join(__dirname, '/tmp/') + file, (err) => {
             if (err) throw err;
           });
         }

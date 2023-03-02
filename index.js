@@ -21,9 +21,9 @@ app.use(cors());
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     if (file.fieldname === 'file') {
-      cb(null, './tmp');
+      cb(null, '../../tmp');
     } else {
-      cb(null, './tmp');
+      cb(null, '../../tmp');
     }
   },
   filename: function (req, file, cb) {
@@ -47,25 +47,24 @@ app.use('/api/check', check);
 // Routes
 app.get('/api/download', function (req, res) {
   try {
-    const folderPath = __dirname + '/res.zip';
+    const folderPath = __dirname + '../../tmp/res.zip';
     res.download(folderPath, () => {
-      fs.unlinkSync(path.join(__dirname, '/tmp/a.txt'));
+      fs.unlinkSync(path.join(__dirname, '../../tmp/file.docx'));
 
-      fs.unlinkSync(path.join(__dirname, '/tmp/file.docx'));
+      fs.unlinkSync(path.join(__dirname, '../../tmp/data.xlsx'));
 
-      fs.unlinkSync(path.join(__dirname, '/tmp/data.xlsx'));
-
-      fs.readdir(path.join(__dirname, '/tmp/'), (err, files) => {
+      fs.readdir(path.join(__dirname, '../../tmp/'), (err, files) => {
         if (err) throw err;
 
         for (const file of files) {
-          fs.unlinkSync(path.join(__dirname, '/tmp/') + file, (err) => {
-            if (err) throw err;
-          });
+          if (file.split('.')[1] === 'docx')
+            fs.unlinkSync(path.join(__dirname, '../../tmp/') + file, (err) => {
+              if (err) throw err;
+            });
         }
       });
 
-      fs.unlinkSync(path.join(__dirname, '/res.zip'));
+      fs.unlinkSync(path.join(__dirname, '../../tmp/res.zip'));
     });
   } catch (err) {
     res.send(`This is the error ${err}`);

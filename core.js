@@ -6,7 +6,7 @@ const fs = require('fs');
 module.exports = function core(name, data) {
   // Load the docx file as binary content
   const content = fs.readFileSync(
-    path.join(__dirname, `/tmp/${name}`),
+    path.join(__dirname, `../../tmp/${name}`),
     'binary'
   );
   const keys = data[0];
@@ -29,7 +29,10 @@ module.exports = function core(name, data) {
 
     // buf is a nodejs Buffer, you can either write it to a
     // file or res.send it with express for example.
-    fs.writeFileSync(path.join(__dirname, `/tmp/output-${index}.docx`), buf);
+    fs.writeFileSync(
+      path.join(__dirname, `../../tmp/output-${index}.docx`),
+      buf
+    );
   }
 };
 

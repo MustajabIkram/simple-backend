@@ -3,8 +3,8 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   return res.status(200).json({
-    title: 'Check Route',
-    message: 'The check is working properly!',
+    title: 'Checking ',
+    message: 'This Works Well',
   });
 });
 

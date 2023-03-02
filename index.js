@@ -64,10 +64,14 @@ app.get('/api/download', function (req, res) {
 });
 
 app.post('/api/upload', upload, async (req, res) => {
-  res.send('Uploaded Successfully');
-  const data = await extract('data.xlsx');
-  core('file.docx', data);
-  zip();
+  try {
+    res.send('Uploaded Successfully');
+    const data = await extract('data.xlsx');
+    core('file.docx', data);
+    zip();
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 // connection

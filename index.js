@@ -6,6 +6,8 @@ const path = require('path');
 const fs = require('fs');
 
 const home = require('./routes/home');
+const check = require('./routes/check');
+
 const extract = require('./extract');
 const core = require('./core');
 const zip = require('./zip');
@@ -40,27 +42,32 @@ const upload = multer({ storage: storage }).fields([
 ]);
 
 app.use('/api', home);
+app.use('/api/check', check);
 
 // Routes
 app.get('/api/download', function (req, res) {
-  const folderPath = __dirname + '/res.zip';
-  res.download(folderPath, () => {
-    fs.unlinkSync(path.join(__dirname, '/file/file.docx'));
+  try {
+    const folderPath = __dirname + '/res.zip';
+    res.download(folderPath, () => {
+      fs.unlinkSync(path.join(__dirname, '/file/file.docx'));
 
-    fs.unlinkSync(path.join(__dirname, '/data/data.xlsx'));
+      fs.unlinkSync(path.join(__dirname, '/data/data.xlsx'));
 
-    fs.readdir(path.join(__dirname, '/output/'), (err, files) => {
-      if (err) throw err;
+      fs.readdir(path.join(__dirname, '/output/'), (err, files) => {
+        if (err) throw err;
 
-      for (const file of files) {
-        fs.unlinkSync(path.join(__dirname, '/output/') + file, (err) => {
-          if (err) throw err;
-        });
-      }
+        for (const file of files) {
+          fs.unlinkSync(path.join(__dirname, '/output/') + file, (err) => {
+            if (err) throw err;
+          });
+        }
+      });
+
+      fs.unlinkSync(path.join(__dirname, '/res.zip'));
     });
-
-    fs.unlinkSync(path.join(__dirname, '/res.zip'));
-  });
+  } catch (err) {
+    res.send(`This is the error ${err}`);
+  }
 });
 
 app.post('/api/upload', upload, async (req, res) => {
@@ -70,7 +77,7 @@ app.post('/api/upload', upload, async (req, res) => {
     core('file.docx', data);
     zip();
   } catch (err) {
-    res.send(err);
+    res.send(`This is the error ${err}`);
   }
 });
 

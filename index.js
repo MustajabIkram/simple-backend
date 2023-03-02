@@ -47,7 +47,7 @@ app.use('/api/check', check);
 // Routes
 app.get('/api/download', function (req, res) {
   try {
-    const folderPath = __dirname + '../../tmp/file.docx';
+    const folderPath = __dirname + '../../../tmp/file.docx';
     console.log(folderPath);
     res.download(folderPath, (error, response) => {
       console.log(error);

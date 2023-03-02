@@ -10,7 +10,6 @@ const check = require('./routes/check');
 
 const extract = require('./extract');
 const core = require('./core');
-const zip = require('./zip');
 
 // Middleware
 const app = express();
@@ -47,22 +46,15 @@ app.use('/api/check', check);
 // Routes
 app.get('/api/download', function (req, res) {
   try {
-    const folderPath = __dirname + '../../../tmp/output-1.docx';
-    console.log(folderPath);
-    res.download(folderPath, (error, response) => {
-      console.log(error);
-      // fs.unlinkSync(path.join(__dirname, '../../tmp/file.docx'));
-      // fs.unlinkSync(path.join(__dirname, '../../tmp/data.xlsx'));
-      // fs.readdir(path.join(__dirname, '../../tmp/'), (err, files) => {
-      //   if (err) throw err; //simple-backend-two.vercel.app/api
-      //   https: for (const file of files) {
-      //     if (file.split('.')[1] === 'docx')
-      //       fs.unlinkSync(path.join(__dirname, '../../tmp/') + file, (err) => {
-      //         if (err) throw err;
-      //       });
-      //   }
-      // });
-      // fs.unlinkSync(path.join(__dirname, '../../tmp/res.zip'));
+    const folderPath = __dirname + '../../../tmp/res.zip';
+    res.download(folderPath, () => {
+      fs.unlinkSync(path.join(__dirname, '../../tmp/file.docx'));
+      fs.unlinkSync(path.join(__dirname, '../../tmp/data.xlsx'));
+      fs.rmdirSync(path.join(__dirname + '../../../tmp/output'), {
+        recursive: true,
+        force: true,
+      });
+      fs.unlinkSync(path.join(__dirname, '../../tmp/res.zip'));
     });
     // res.send(`This is the downloaded`);
   } catch (err) {
@@ -76,7 +68,6 @@ app.post('/api/upload', upload, async (req, res) => {
     res.send('Uploaded Successfully');
     const data = await extract('data.xlsx');
     core('file.docx', data);
-    // zip();
   } catch (err) {
     res.send(`This is the error ${err}`);
   }

@@ -3,6 +3,8 @@ const Docxtemplater = require('docxtemplater');
 const path = require('path');
 const fs = require('fs');
 
+const zipIt = require('./zip');
+
 module.exports = function core(name, data) {
   // Load the docx file as binary content
   const content = fs.readFileSync(
@@ -10,30 +12,39 @@ module.exports = function core(name, data) {
     'binary'
   );
   const keys = data[0];
-  for (let index = 1; index < data.length; index++) {
-    const zip = new PizZip(content);
-    const values = data[index];
-    const doc = new Docxtemplater(zip, {
-      paragraphLoop: true,
-      linebreaks: true,
-    });
-    // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
-    doc.render(mapMyKeys(keys, values));
+  fs.mkdir(path.join(__dirname, '../../tmp/output'), function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('New directory successfully created.');
 
-    const buf = doc.getZip().generate({
-      type: 'nodebuffer',
-      // compression: DEFLATE adds a compression step.
-      // For a 50MB output document, expect 500ms additional CPU time
-      compression: 'DEFLATE',
-    });
+      for (let index = 1; index < data.length; index++) {
+        const zip = new PizZip(content);
+        const values = data[index];
+        const doc = new Docxtemplater(zip, {
+          paragraphLoop: true,
+          linebreaks: true,
+        });
+        // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
+        doc.render(mapMyKeys(keys, values));
 
-    // buf is a nodejs Buffer, you can either write it to a
-    // file or res.send it with express for example.
-    fs.writeFileSync(
-      path.join(__dirname, `../../tmp/output-${index}.docx`),
-      buf
-    );
-  }
+        const buf = doc.getZip().generate({
+          type: 'nodebuffer',
+          // compression: DEFLATE adds a compression step.
+          // For a 50MB output document, expect 500ms additional CPU time
+          compression: 'DEFLATE',
+        });
+
+        // buf is a nodejs Buffer, you can either write it to a
+        // file or res.send it with express for example.
+        fs.writeFileSync(
+          path.join(__dirname, `../../tmp/output/output-${index}.docx`),
+          buf
+        );
+        zipIt();
+      }
+    }
+  });
 };
 
 const mapMyKeys = (keys, values) => {

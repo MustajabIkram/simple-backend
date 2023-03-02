@@ -47,7 +47,7 @@ app.use('/api/check', check);
 // Routes
 app.get('/api/download', function (req, res) {
   try {
-    const folderPath = __dirname + '../../tmp/res.zip';
+    const folderPath = __dirname + '../../tmp/output-1.docx';
     res.download(folderPath, () => {
       // fs.unlinkSync(path.join(__dirname, '../../tmp/file.docx'));
       // fs.unlinkSync(path.join(__dirname, '../../tmp/data.xlsx'));
@@ -72,7 +72,7 @@ app.post('/api/upload', upload, async (req, res) => {
     res.send('Uploaded Successfully');
     const data = await extract('data.xlsx');
     core('file.docx', data);
-    zip();
+    // zip();
   } catch (err) {
     res.send(`This is the error ${err}`);
   }

@@ -49,21 +49,17 @@ app.get('/api/download', function (req, res) {
   try {
     const folderPath = __dirname + '../../tmp/res.zip';
     res.download(folderPath, () => {
-      fs.unlinkSync(path.join(__dirname, '../../tmp/file.docx'));
-
-      fs.unlinkSync(path.join(__dirname, '../../tmp/data.xlsx'));
-
-      fs.readdir(path.join(__dirname, '../../tmp/'), (err, files) => {
-        if (err) throw err; //simple-backend-two.vercel.app/api
-
-        https: for (const file of files) {
-          if (file.split('.')[1] === 'docx')
-            fs.unlinkSync(path.join(__dirname, '../../tmp/') + file, (err) => {
-              if (err) throw err;
-            });
-        }
-      });
-
+      // fs.unlinkSync(path.join(__dirname, '../../tmp/file.docx'));
+      // fs.unlinkSync(path.join(__dirname, '../../tmp/data.xlsx'));
+      // fs.readdir(path.join(__dirname, '../../tmp/'), (err, files) => {
+      //   if (err) throw err; //simple-backend-two.vercel.app/api
+      //   https: for (const file of files) {
+      //     if (file.split('.')[1] === 'docx')
+      //       fs.unlinkSync(path.join(__dirname, '../../tmp/') + file, (err) => {
+      //         if (err) throw err;
+      //       });
+      //   }
+      // });
       // fs.unlinkSync(path.join(__dirname, '../../tmp/res.zip'));
     });
   } catch (err) {

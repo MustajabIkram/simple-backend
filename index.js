@@ -49,6 +49,8 @@ app.get('/api/download', function (req, res) {
   try {
     const folderPath = __dirname + '/res.zip';
     res.download(folderPath, () => {
+      fs.unlinkSync(path.join(__dirname, '/tmp/a.txt'));
+
       fs.unlinkSync(path.join(__dirname, '/tmp/file.docx'));
 
       fs.unlinkSync(path.join(__dirname, '/tmp/data.xlsx'));

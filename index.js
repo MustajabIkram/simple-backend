@@ -54,18 +54,16 @@ app.get('/api/download', function (req, res) {
     const outputDir = path.join(__dirname + '../../../tmp/output');
     console.log(folderPath, docxPath, dataPath, outputDir);
     res.download(folderPath, () => {
-      // fs.unlinkSync(docxPath);
-      // fs.unlinkSync(dataPath);
-      // fs.rmdirSync(outputDir, {
-      //   recursive: true,
-      //   force: true,
-      // });
+      fs.unlinkSync(docxPath);
+      fs.unlinkSync(dataPath);
+      fs.rmdirSync(outputDir, {
+        recursive: true,
+        force: true,
+      });
       // fs.unlinkSync(folderPath);
     });
-    // res.send(`This is the downloaded`);
   } catch (err) {
     console.log(err);
-    res.send(`This is the error ${err}`);
   }
 });
 

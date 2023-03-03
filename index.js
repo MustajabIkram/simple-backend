@@ -46,9 +46,7 @@ app.use('/api/check', check);
 // Routes
 app.get('/api/download', function (req, res) {
   try {
-    const folderPath = path.join(
-      __dirname + '../../../tmp/output/output-1.docx'
-    );
+    const folderPath = path.join(__dirname + '../../../tmp/res.zip');
     const docxPath = path.join(__dirname, '../../tmp/file.docx');
     const dataPath = path.join(__dirname, '../../tmp/data.xlsx');
     const outputDir = path.join(__dirname + '../../../tmp/output');

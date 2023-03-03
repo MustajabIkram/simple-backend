@@ -53,7 +53,7 @@ app.get('/api/download', function (req, res) {
     const dataPath = path.join(__dirname, '../../tmp/data.xlsx');
     const outputDir = path.join(__dirname + '../../../tmp/output');
     console.log(folderPath, docxPath, dataPath, outputDir);
-    res.download(folderPath)
+    res.download(folderPath);
     // res.download(folderPath, () => {
     //   fs.unlinkSync(docxPath);
     //   fs.unlinkSync(dataPath);
@@ -61,8 +61,7 @@ app.get('/api/download', function (req, res) {
     //     recursive: true,
     //     force: true,
     //   });
-      // fs.unlinkSync(folderPath);
-    });
+    // fs.unlinkSync(folderPath);
   } catch (err) {
     console.log(err);
   }

@@ -5,14 +5,14 @@ const fs = require('fs');
 
 const zipIt = require('./zip');
 
-module.exports = function core(name, data) {
+module.exports = function core(name, data, ID) {
   // Load the docx file as binary content
   const content = fs.readFileSync(
     path.join(__dirname, `../../tmp/${name}`),
     'binary'
   );
   const keys = data[0];
-  fs.mkdir(path.join(__dirname, '../../tmp/output'), function (err) {
+  fs.mkdir(path.join(__dirname, `../../tmp/output${ID}`), function (err) {
     if (err) {
       console.log(err);
     } else {
@@ -38,10 +38,10 @@ module.exports = function core(name, data) {
         // buf is a nodejs Buffer, you can either write it to a
         // file or res.send it with express for example.
         fs.writeFileSync(
-          path.join(__dirname, `../../tmp/output/output-${index}.docx`),
+          path.join(__dirname, `../../tmp/output${ID}/output-${index}.docx`),
           buf
         );
-        zipIt();
+        zipIt(ID);
       }
     }
   });

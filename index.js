@@ -4,6 +4,7 @@ var multer = require('multer');
 var cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 const home = require('./routes/home');
 const check = require('./routes/check');
@@ -16,18 +17,14 @@ const app = express();
 app.use(express.json());
 
 app.use(cors());
-
+const ID = uuidv4();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    if (file.fieldname === 'file') {
-      cb(null, '../../tmp');
-    } else {
-      cb(null, '../../tmp');
-    }
+    cb(null, '../../tmp');
   },
   filename: function (req, file, cb) {
-    if (file.fieldname === 'file') cb(null, 'file.docx');
-    if (file.fieldname === 'data') cb(null, 'data.xlsx');
+    if (file.fieldname === 'file') cb(null, `file${ID}.docx`);
+    if (file.fieldname === 'data') cb(null, `data${ID}.xlsx`);
   },
 });
 
@@ -46,10 +43,10 @@ app.use('/api/check', check);
 // Routes
 app.get('/api/download', function (req, res) {
   try {
-    const folderPath = path.join(__dirname + '../../../tmp/res.zip');
-    const docxPath = path.join(__dirname, '../../tmp/file.docx');
-    const dataPath = path.join(__dirname, '../../tmp/data.xlsx');
-    const outputDir = path.join(__dirname + '../../../tmp/output');
+    const folderPath = path.join(__dirname + `../../../tmp/res${ID}.zip`);
+    const docxPath = path.join(__dirname, `../../tmp/file${ID}.docx`);
+    const dataPath = path.join(__dirname, `../../tmp/data${ID}.xlsx`);
+    const outputDir = path.join(__dirname + `../../../tmp/output${ID}`);
     console.log(folderPath, docxPath, dataPath, outputDir);
     res.download(folderPath);
     // res.download(folderPath, () => {
@@ -68,8 +65,8 @@ app.get('/api/download', function (req, res) {
 app.post('/api/upload', upload, async (req, res) => {
   try {
     res.send({ isPosted: true });
-    const data = await extract('data.xlsx');
-    core('file.docx', data);
+    const data = await extract(`data${ID}.xlsx`);
+    core(`file${ID}.docx`, data, ID);
   } catch (err) {
     res.send({ isPosted: false });
   }

@@ -67,11 +67,11 @@ app.get('/api/download', function (req, res) {
 
 app.post('/api/upload', upload, async (req, res) => {
   try {
-    res.send('Uploaded Successfully');
+    res.send({ isPosted: true });
     const data = await extract('data.xlsx');
     core('file.docx', data);
   } catch (err) {
-    res.send(`This is the error ${err}`);
+    res.send({ isPosted: false });
   }
 });
 // comment

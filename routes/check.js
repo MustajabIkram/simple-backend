@@ -1,10 +1,13 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
+const user = ['Test123!'];
 
-router.get('/', async (req, res, next) => {
-  return res.status(200).json({
-    title: 'Checking ',
-    message: 'This Works Well',
+router.post('/', async (req, res, next) => {
+  const password = req.body.password;
+  res.send({
+    isUser: user.includes(password),
+    hash: uuidv4(),
   });
 });
 

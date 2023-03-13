@@ -43,12 +43,14 @@ app.use('/api/check', check);
 // Routes
 app.get('/api/download', function (req, res) {
   try {
-    const folderPath = path.join(__dirname + `../../../tmp/res${ID}.zip`);
+    const downloadPath = path.join(
+      __dirname + `../../../tmp/output${ID}/output-1.docx`
+    );
     const docxPath = path.join(__dirname, `../../tmp/file${ID}.docx`);
     const dataPath = path.join(__dirname, `../../tmp/data${ID}.xlsx`);
     const outputDir = path.join(__dirname + `../../../tmp/output${ID}`);
-    console.log(folderPath, docxPath, dataPath, outputDir);
-    res.download(folderPath);
+    console.log(downloadPath, docxPath, dataPath, outputDir);
+    res.download(downloadPath);
     // res.download(folderPath, () => {
     //   fs.unlinkSync(docxPath);
     //   fs.unlinkSync(dataPath);

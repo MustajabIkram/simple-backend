@@ -41,7 +41,7 @@ module.exports = function core(name, data, ID) {
           path.join(__dirname, `../../tmp/output${ID}/output-${index}.docx`),
           buf
         );
-        zipIt(ID);
+        // zipIt(ID);
       }
     }
   });
